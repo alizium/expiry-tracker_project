@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Catégories • Expiry Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"><div class="logo"><span>📅</span></div><div>EXPIRY <b>TRACKER</b></div></a></div>
+    <nav class="nav">
+      <a href="./dashboard.html" class="pill">Dashboard</a>
+      <a href="./categories.html" class="pill">Catégories</a>
+      <a href="./profile.html" class="pill">Profil</a>
+      <button id="btnLogout" class="pill">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 style="margin:8px 0 10px">Choisissez une catégorie</h1>
+    <p style="opacity:.9;margin:0 0 18px">Sélectionnez le type d’élément que vous souhaitez ajouter.</p>
+
+    <div class="grid">
+      <a class="cat" href="./type.html?category=Administration"><span>👩‍💼</span><h3>Administration</h3></a>
+      <a class="cat" href="./type.html?category=Nourriture"><span>🧊</span><h3>Nourriture</h3></a>
+      <a class="cat" href="./type.html?category=Santé"><span>💚</span><h3>Santé</h3></a>
+      <a class="cat" href="./type.html?category=Abonnements"><span>🎬</span><h3>Abonnements</h3></a>
+    </div>
+
+    <div style="margin-top:22px"><a class="underline" href="./dashboard.html">← Retour</a></div>
+  </main>
+
+  <footer class="footer">EXPIRY TRACKER — ©2025</footer>
+
+  <script type="module">
+    import { requireAuthOrRedirect, setupLogout } from "./js/auth.js";
+    requireAuthOrRedirect(); setupLogout();
+  </script>
+</body>
+</html>

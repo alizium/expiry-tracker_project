@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Expiry Tracker</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand-left">
+        <a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+          <!-- Si tu n'as pas de fichier logo, l'img se masquera et on affichera le texte -->
+          <img src="./images/logo.png" alt="Logo Expiry Tracker" class="brand-logo" onerror="this.style.display='none'">
+          <div class="brand-text">EXPIRY <span>TRACKER</span></div>
+        </a>
+      </div>
+
+      <nav class="nav-right">
+        <div class="nav-guest-only">
+          <a href="./login.html" class="pill pill-light">Connexion</a>
+          <a href="./register.html" class="pill pill-dark">Inscription</a>
+        </div>
+        <div class="nav-auth-only" style="display: none;">
+          <div id="userInfo"></div>
+        </div>
+      </nav>
+    </div>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <!-- Intro (paragraphe haut gauche) -->
+    <section class="intro">
+      <div class="container">
+        <p class="intro-text">
+          Entrez la date de délivrance et la date d’expiration, et suivez la validité de vos documents :
+          carte d’identité, passeport, assurance, carte bancaire… et bien plus encore ! Recevez des rappels à temps
+          avant leur expiration.
+        </p>
+        <div class="center-divider" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Zone avantages + illustration calendrier -->
+    <section class="features">
+      <div class="container features-grid">
+        <div class="features-left">
+          <h2 class="features-title">Avantages d’Expiry Tracker :</h2>
+          <ul class="features-list">
+            <li>✓ Aucun document requis</li>
+            <li>✓ Notifications automatiques sans spam</li>
+            <li>✓ Tous vos rappels au même endroit</li>
+            <li>✓ Accessible partout</li>
+            <li>✓ Interface simple et claire</li>
+          </ul>
+        </div>
+
+        <div class="features-right" aria-hidden="true">
+          <!-- Illustration calendrier (SVG, pas d’image externe) -->
+          <svg class="calendar" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="3" stdDeviation="6" flood-opacity="0.18"/>
+              </filter>
+            </defs>
+            <rect x="40" y="70" width="240" height="210" rx="22" ry="22" fill="#425a6c" stroke="#394f60" stroke-width="10" filter="url(#soft)"/>
+            <rect x="40" y="85" width="240" height="36" rx="10" ry="10" fill="#394f60"/>
+            <circle cx="105" cy="80" r="10" fill="#cfe3f0"/>
+            <circle cx="215" cy="80" r="10" fill="#cfe3f0"/>
+            <g fill="#4b6678">
+              <rect x="70" y="130" width="36" height="36" rx="8"/>
+              <rect x="122" y="130" width="36" height="36" rx="8"/>
+              <rect x="174" y="130" width="36" height="36" rx="8"/>
+              <rect x="226" y="130" width="36" height="36" rx="8"/>
+
+              <rect x="70" y="182" width="36" height="36" rx="8"/>
+              <rect x="122" y="182" width="36" height="36" rx="8"/>
+              <rect x="174" y="182" width="36" height="36" rx="8"/>
+              <rect x="226" y="182" width="36" height="36" rx="8"/>
+
+              <rect x="70" y="234" width="36" height="36" rx="8"/>
+              <rect x="122" y="234" width="36" height="36" rx="8"/>
+              <rect x="174" y="234" width="36" height="36" rx="8"/>
+              <rect x="226" y="234" width="36" height="36" rx="8"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Note confidentialité + CTA bas -->
+    <section class="privacy-cta">
+      <div class="container privacy-wrap">
+        <p class="privacy">
+          <span class="lock" aria-hidden="true">🔒</span>
+          Nous ne stockons jamais vos documents. Seules vos dates de délivrance et d’expiration sont enregistrées.
+        </p>
+        <div class="nav-guest-only">
+          <a href="./register.html" class="cta">Commencer gratuitement</a>
+        </div>
+        <div class="nav-auth-only" style="display: none;">
+          <a href="./dashboard.html" class="cta">Accéder au Dashboard</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div class="foot-left">
+        <div class="foot-brand">EXPIRY TRACKER</div>
+        <div class="foot-copy">© 2025. Tous droits réservés</div>
+      </div>
+
+      <nav class="foot-links">
+        <a href="#">À propos</a><span class="vsep"></span>
+        <a href="#">Contact</a><span class="vsep"></span>
+        <a href="#">FAQ</a><span class="vsep"></span>
+        <a href="#">Mentions légales</a><span class="vsep"></span>
+        <a href="#">Politique de confidentialité</a><span class="vsep"></span>
+        <a href="#">Conditions d’utilisation</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- toggle de la navbar selon auth -->
+  <script src="./js/auth-ui.js" defer></script>
+</body>
+</html>

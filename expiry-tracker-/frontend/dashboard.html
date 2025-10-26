@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard • Expiry Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"><div class="logo"><span>📅</span></div><div>EXPIRY <b>TRACKER</b></div></a></div>
+    <nav class="nav">
+      <a href="./dashboard.html" class="pill">Dashboard</a>
+      <a href="./categories.html" class="pill">Catégories</a>
+      <a href="./profile.html" class="pill">Profil</a>
+      <button id="btnLogout" class="pill">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="topbar">
+        <h2>Mes documents</h2>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span id="counter" style="color:#6b7280"></span>
+          <a href="./categories.html" class="pill primary">+ Ajouter une date d’expiration</a>
+        </div>
+      </div>
+
+      <!-- TABLEAU UNIQUEMENT -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Document</th>
+            <th>Catégorie</th>
+            <th>Date d’expiration</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="5">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="footer">
+    EXPIRY TRACKER — ©2025 • <a class="underline" href="#">Mentions légales</a> • <a class="underline" href="#">Politique de confidentialité</a>
+  </footer>
+
+  <script type="module" src="./js/api.js"></script>
+  <script type="module" src="./js/auth.js"></script>
+  <script type="module" src="./js/dashboard.js"></script>
+</body>
+</html>

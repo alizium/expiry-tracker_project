@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Ajouter • Expiry Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"><div class="logo"><span>📅</span></div><div>EXPIRY <b>TRACKER</b></div></a></div>
+    <nav class="nav">
+      <a href="./dashboard.html" class="pill">Dashboard</a>
+      <a href="./categories.html" class="pill">Catégories</a>
+      <a href="./profile.html" class="pill">Profil</a>
+      <button id="btnLogout" class="pill">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h2 id="title">Choisissez un type</h2>
+      <div id="list" class="grid" style="margin-top:16px"></div>
+      <div style="margin-top:22px"><a class="underline" href="./categories.html">← Retour</a></div>
+    </section>
+  </main>
+
+  <footer class="footer">EXPIRY TRACKER — ©2025</footer>
+
+  <script type="module">
+    import { requireAuthOrRedirect, setupLogout } from "./js/auth.js";
+    requireAuthOrRedirect(); setupLogout();
+
+    const MAP = {
+      "Administration": ["Carte d'identité","Passeport","Carte vitale","Permis de conduire"],
+      "Nourriture": ["Produit frais","Produit surgelé","Produit sec"],
+      "Santé": ["Ordonnance","Médicament","Vaccin"],
+      "Abonnements": ["Netflix","Spotify","Assurance","Salle de sport"]
+    };
+
+    const params = new URLSearchParams(location.search);
+    const cat = params.get("category") || "Administration";
+    document.getElementById("title").textContent = `« ${cat} »`;
+
+    const list = document.getElementById("list");
+    const items = MAP[cat] || [];
+    list.innerHTML = items.map(name =>
+      `<a class="cat" href="./create.html?category=${encodeURIComponent(cat)}&name=${encodeURIComponent(name)}">
+         <span>➕</span><h3>${name}</h3>
+       </a>`
+    ).join("") || `<div>Aucun type prédéfini pour ${cat}.</div>`;
+  </script>
+</body>
+</html>

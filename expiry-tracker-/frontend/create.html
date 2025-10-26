@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Nouveau document • Expiry Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"><div class="logo"><span>📅</span></div><div>EXPIRY <b>TRACKER</b></div></a></div>
+    <nav class="nav">
+      <a href="./dashboard.html" class="pill">Dashboard</a>
+      <a href="./categories.html" class="pill">Catégories</a>
+      <a href="./profile.html" class="pill">Profil</a>
+      <button id="btnLogout" class="pill">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="create-container">
+      <!-- Header avec icône -->
+      <div class="create-header">
+        <div class="create-icon">📄</div>
+        <div class="create-title">
+          <h1 id="h1">Nouveau document</h1>
+          <p class="create-subtitle">Ajoutez un nouveau document à votre collection</p>
+        </div>
+      </div>
+
+      <!-- Hint avec design amélioré -->
+      <div class="create-hint">
+        <div class="hint-icon">💡</div>
+        <div class="hint-content">
+          <strong>Conseil :</strong> Ajoutez la date d'expiration. Vous pourrez modifier plus tard depuis le dashboard.
+        </div>
+      </div>
+
+      <!-- Notice pour les messages -->
+      <div id="notice" class="create-notice"></div>
+
+      <!-- Formulaire avec design moderne -->
+      <div class="create-form-container">
+        <form id="createForm" class="create-form">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📝</span>
+              Nom du document
+            </label>
+            <input type="text" name="name" class="form-input" placeholder="Ex: Carte d'identité, Permis de conduire..." required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📂</span>
+              Catégorie
+            </label>
+            <input type="text" name="category" class="form-input" placeholder="Ex: Administration, Nourriture, Abonnements..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📅</span>
+              Date d'expiration
+            </label>
+            <input type="date" name="expiration_date" class="form-input" required />
+          </div>
+
+          <div class="form-actions">
+            <button class="create-btn primary" type="submit">
+              <span class="btn-icon">➕</span>
+              <span>Ajouter le document</span>
+            </button>
+            <a href="./categories.html" class="create-btn secondary">
+              <span class="btn-icon">←</span>
+              <span>Retour aux catégories</span>
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">EXPIRY TRACKER — ©2025</footer>
+
+  <script type="module">
+    import { requireAuthOrRedirect, setupLogout } from "./js/auth.js";
+    import { createItem } from "./js/api.js";
+    requireAuthOrRedirect(); setupLogout();
+
+    const params = new URLSearchParams(location.search);
+    const preName = params.get("name") || "";
+    const preCat = params.get("category") || "";
+
+    const form = document.getElementById("createForm");
+    const notice = document.getElementById("notice");
+    form.name.value = preName;
+    form.category.value = preCat;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      notice.textContent = ""; notice.className = "notice";
+
+      const name = form.name.value.trim();
+      const expirationDate = form.expiration_date.value;
+      const category = form.category.value.trim();
+
+      if (!name || !expirationDate) {
+        notice.textContent = "⚠️ Nom et date requis.";
+        notice.classList.add("err");
+        return;
+      }
+      try {
+        await createItem({ name, expirationDate, category: category || undefined });
+        notice.textContent = "✅ Document ajouté avec succès !";
+        notice.classList.add("ok");
+        setTimeout(() => {
+          window.location.href = "./dashboard.html";
+        }, 1500);
+      } catch (err) {
+        notice.textContent = "❌ " + (err.message || "Erreur lors de l'ajout.");
+        notice.classList.add("err");
+      }
+    });
+  </script>
+</body>
+</html>

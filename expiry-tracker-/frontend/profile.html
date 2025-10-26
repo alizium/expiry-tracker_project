@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Profil • Expiry Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="brand"><a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"><div class="logo"><span>📅</span></div><div>EXPIRY <b>TRACKER</b></div></a></div>
+    <nav class="nav">
+      <a href="./dashboard.html" class="pill">Dashboard</a>
+      <a href="./categories.html" class="pill">Catégories</a>
+      <a href="./profile.html" class="pill">Profil</a>
+      <button id="btnLogout" class="pill">Déconnexion</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="profile-container">
+      <!-- Header avec avatar et nom -->
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <span id="avatarInitial">👤</span>
+        </div>
+        <div class="profile-info">
+          <h1 id="profileName">Chargement...</h1>
+          <p id="profileEmail" class="profile-email">Chargement...</p>
+          <span id="memberSince" class="member-since">Membre depuis le chargement...</span>
+        </div>
+      </div>
+
+      <!-- Informations personnelles -->
+      <div class="profile-section">
+        <h2>📋 Informations personnelles</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-icon">👤</div>
+            <div class="info-content">
+              <label>Nom complet</label>
+              <input type="text" id="userName" readonly placeholder="Chargement..." />
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📧</div>
+            <div class="info-content">
+              <label>Adresse email</label>
+              <input type="email" id="userEmail" readonly placeholder="Chargement..." />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistiques avec design amélioré -->
+      <div class="profile-section">
+        <h2>📊 Statistiques de vos documents</h2>
+        <div class="stats-grid">
+          <div class="stat-card stat-total">
+            <div class="stat-icon">📄</div>
+            <div class="stat-content">
+              <div class="stat-number" id="totalItems">-</div>
+              <div class="stat-label">Documents totaux</div>
+            </div>
+          </div>
+          <div class="stat-card stat-warning">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-content">
+              <div class="stat-number" id="expiringSoon">-</div>
+              <div class="stat-label">Expirent bientôt</div>
+            </div>
+          </div>
+          <div class="stat-card stat-danger">
+            <div class="stat-icon">❌</div>
+            <div class="stat-content">
+              <div class="stat-number" id="expired">-</div>
+              <div class="stat-label">Expirés</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <!-- Modification du mot de passe -->
+          <div class="profile-section">
+            <h2>🔐 Sécurité</h2>
+            <div class="password-change-container">
+              <div class="password-form">
+                <h3>Changer le mot de passe</h3>
+                <form id="passwordChangeForm">
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="label-icon">🔒</span>
+                      Mot de passe actuel
+                    </label>
+                    <input type="password" name="currentPassword" class="form-input" placeholder="Votre mot de passe actuel" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="label-icon">🔑</span>
+                      Nouveau mot de passe
+                    </label>
+                    <input type="password" name="newPassword" class="form-input" placeholder="Nouveau mot de passe (min. 6 caractères)" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="label-icon">✅</span>
+                      Confirmer le nouveau mot de passe
+                    </label>
+                    <input type="password" name="confirmPassword" class="form-input" placeholder="Confirmez le nouveau mot de passe" required />
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="password-btn primary">
+                      <span class="btn-icon">🔐</span>
+                      <span>Changer le mot de passe</span>
+                    </button>
+                  </div>
+                </form>
+                
+                <div class="password-notice">
+                  <div class="notice-icon">💡</div>
+                  <div class="notice-content">
+                    <strong>Conseil :</strong> Utilisez un mot de passe fort avec au moins 8 caractères, des chiffres et des symboles.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions rapides -->
+          <div class="profile-section">
+            <h2>⚡ Actions rapides</h2>
+            <div class="action-buttons">
+              <a href="./dashboard.html" class="action-btn primary">
+                <span class="btn-icon">📊</span>
+                <span>Voir le Dashboard</span>
+              </a>
+              <a href="./create.html" class="action-btn secondary">
+                <span class="btn-icon">➕</span>
+                <span>Ajouter un document</span>
+              </a>
+              <a href="./categories.html" class="action-btn secondary">
+                <span class="btn-icon">📂</span>
+                <span>Voir les catégories</span>
+              </a>
+            </div>
+          </div>
+    </div>
+  </main>
+
+  <footer class="footer">EXPIRY TRACKER — ©2025</footer>
+
+  <script type="module">
+    import { requireAuthOrRedirect, setupLogout } from "./js/auth.js";
+    import { listItems } from "./js/api.js";
+    requireAuthOrRedirect(); setupLogout();
+
+    // Charger les informations utilisateur et statistiques
+    async function loadProfile() {
+      try {
+        // Récupérer les informations utilisateur depuis l'API
+        const token = localStorage.getItem('jwt');
+        if (!token) {
+          console.error('Aucun token trouvé');
+          // Afficher un message d'erreur
+          document.getElementById('profileName').textContent = 'Non connecté';
+          document.getElementById('profileEmail').textContent = 'Non connecté';
+          document.getElementById('memberSince').textContent = 'Veuillez vous connecter';
+          return;
+        }
+
+        // Fallback: décoder le token pour afficher les informations de base
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          document.getElementById('profileName').textContent = payload.name || 'Utilisateur';
+          document.getElementById('profileEmail').textContent = payload.email || 'email@example.com';
+          
+          // Utiliser la date d'émission du token comme approximation de la date d'inscription
+          console.log('Token payload:', payload);
+          
+          if (payload.iat) {
+            const tokenDate = new Date(payload.iat * 1000);
+            console.log('Date du token:', tokenDate);
+            console.log('Timestamp iat:', payload.iat);
+            
+            // Vérifier si la date est valide (pas dans le futur et pas trop ancienne)
+            const now = new Date();
+            const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+            
+            if (tokenDate > now || tokenDate < oneYearAgo) {
+              console.log('Token date invalide, utilisation de la date actuelle');
+              const today = new Date().toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              document.getElementById('memberSince').textContent = `Membre depuis le ${today}`;
+            } else {
+              const joinDate = tokenDate.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              document.getElementById('memberSince').textContent = `Membre depuis le ${joinDate}`;
+            }
+          } else {
+            console.log('Pas de champ iat dans le token');
+            // Utiliser une date par défaut
+            const today = new Date().toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+            document.getElementById('memberSince').textContent = `Membre depuis le ${today}`;
+          }
+          
+          document.getElementById('userName').value = payload.name || 'Utilisateur';
+          document.getElementById('userEmail').value = payload.email || 'email@example.com';
+        } catch (e) {
+          console.error('Erreur lors du décodage du token:', e);
+        }
+
+        // Appel API pour récupérer les données utilisateur
+        try {
+          const userResponse = await fetch('http://localhost:3000/api/auth/me', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            console.log('Données utilisateur reçues:', userData);
+            
+            // Afficher les informations utilisateur réelles dans le header
+            document.getElementById('profileName').textContent = userData.name || 'Utilisateur';
+            document.getElementById('profileEmail').textContent = userData.email || 'email@example.com';
+            
+            // Afficher l'initiale pour l'avatar
+            const initial = (userData.name || 'U').charAt(0).toUpperCase();
+            document.getElementById('avatarInitial').textContent = initial;
+            
+            // Afficher la date d'inscription
+            if (userData.createdAt) {
+              const joinDate = new Date(userData.createdAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              document.getElementById('memberSince').textContent = `Membre depuis le ${joinDate}`;
+            } else {
+              console.log('Pas de createdAt dans la réponse API, utilisation de la date actuelle');
+              const today = new Date().toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              document.getElementById('memberSince').textContent = `Membre depuis le ${today}`;
+            }
+            
+            // Afficher les informations dans les champs
+            document.getElementById('userName').value = userData.name || 'Utilisateur';
+            document.getElementById('userEmail').value = userData.email || 'email@example.com';
+          } else {
+            console.error('Erreur API:', userResponse.status, userResponse.statusText);
+            const errorData = await userResponse.json().catch(() => ({}));
+            console.error('Détails erreur:', errorData);
+            
+            // Si erreur 401, le token est expiré, rediriger vers login
+            if (userResponse.status === 401) {
+              console.log('Token expiré, redirection vers login...');
+              localStorage.removeItem('jwt');
+              window.location.href = './login.html';
+              return;
+            }
+            
+            // Afficher un message d'erreur à l'utilisateur
+            document.getElementById('profileName').textContent = 'Erreur de chargement';
+            document.getElementById('profileEmail').textContent = 'Erreur de chargement';
+            document.getElementById('memberSince').textContent = 'Impossible de charger la date';
+            document.getElementById('userName').value = 'Erreur de chargement';
+            document.getElementById('userEmail').value = 'Erreur de chargement';
+          }
+        } catch (fetchError) {
+          console.error('Erreur de connexion à l\'API:', fetchError);
+          // Afficher un message d'erreur à l'utilisateur
+          document.getElementById('profileName').textContent = 'Erreur de connexion';
+          document.getElementById('profileEmail').textContent = 'Erreur de connexion';
+          document.getElementById('memberSince').textContent = 'Impossible de se connecter au serveur';
+          document.getElementById('userName').value = 'Erreur de connexion';
+          document.getElementById('userEmail').value = 'Erreur de connexion';
+        }
+
+        // Récupérer les items pour calculer les statistiques
+        const items = await listItems();
+        
+        // Calculer les statistiques
+        const now = new Date();
+        const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        
+        const totalItems = items.length;
+        const expiringSoon = items.filter(item => {
+          const expDate = new Date(item.expiration_date);
+          return expDate > now && expDate <= thirtyDaysFromNow;
+        }).length;
+        const expired = items.filter(item => {
+          const expDate = new Date(item.expiration_date);
+          return expDate < now;
+        }).length;
+
+        // Afficher les statistiques
+        document.getElementById('totalItems').textContent = totalItems;
+        document.getElementById('expiringSoon').textContent = expiringSoon;
+        document.getElementById('expired').textContent = expired;
+
+      } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+      }
+    }
+
+      loadProfile();
+
+      // Gestion du changement de mot de passe
+      const passwordForm = document.getElementById('passwordChangeForm');
+      if (passwordForm) {
+        passwordForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(passwordForm);
+          const currentPassword = formData.get('currentPassword');
+          const newPassword = formData.get('newPassword');
+          const confirmPassword = formData.get('confirmPassword');
+          
+          // Validation côté client
+          if (newPassword !== confirmPassword) {
+            alert('❌ Les nouveaux mots de passe ne correspondent pas.');
+            return;
+          }
+          
+          if (newPassword.length < 6) {
+            alert('❌ Le nouveau mot de passe doit contenir au moins 6 caractères.');
+            return;
+          }
+          
+          if (currentPassword === newPassword) {
+            alert('❌ Le nouveau mot de passe doit être différent de l\'actuel.');
+            return;
+          }
+          
+          try {
+            const token = localStorage.getItem('jwt');
+            if (!token) {
+              alert('❌ Vous devez être connecté pour changer votre mot de passe.');
+              window.location.href = './login.html';
+              return;
+            }
+            
+            const response = await fetch('http://localhost:3000/api/auth/change-password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                currentPassword,
+                newPassword
+              })
+            });
+            
+            if (response.ok) {
+              alert('✅ Mot de passe changé avec succès !');
+              passwordForm.reset();
+            } else {
+              const errorData = await response.json();
+              alert('❌ ' + (errorData.error || 'Erreur lors du changement de mot de passe.'));
+            }
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('❌ Erreur de connexion. Vérifiez votre connexion internet.');
+          }
+        });
+      }
+    </script>
+</body>
+</html>

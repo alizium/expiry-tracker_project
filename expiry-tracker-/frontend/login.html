@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connexion • Expiry Tracker</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand-left">
+        <a href="./index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+          <img src="./images/logo.png" alt="Logo Expiry Tracker" class="brand-logo" onerror="this.style.display='none'">
+          <div class="brand-text">EXPIRY <span>TRACKER</span></div>
+        </a>
+      </div>
+      <nav class="nav-right">
+        <a href="./login.html" class="pill pill-light">Connexion</a>
+        <a href="./register.html" class="pill pill-dark">Inscription</a>
+      </nav>
+    </div>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="auth-shell container">
+    <section class="form-card">
+      <h1 class="form-title">Connexion</h1>
+
+      <form id="loginForm" class="form-stack" autocomplete="off" novalidate>
+        <div class="field">
+          <input id="identifier" name="identifier" type="text" placeholder="Nom d’utilisateur ou email" required />
+        </div>
+        <div class="field">
+          <input id="password" name="password" type="password" placeholder="Mot de passe" required />
+        </div>
+        <button type="submit" class="btn-cta full">Se connecter</button>
+
+        <p class="alt" style="margin-top:10px;">
+          <a class="link" href="./forgot-password.html">Mot de passe oublié</a>
+        </p>
+        <p class="alt">
+          Pas encore de compte ?
+          <a class="link" href="./register.html">Inscrivez-vous</a>
+        </p>
+
+        <!-- messages -->
+        <p id="formOk" class="notice ok" hidden>Connecté. Redirection…</p>
+        <p id="formErr" class="notice err" hidden>Identifiants invalides.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer soft">
+    <div class="container footer-row">
+      <div class="foot-left">
+        <div class="foot-brand">EXPIRY TRACKER</div>
+        <div class="foot-copy">©2025 tous droits réservés</div>
+      </div>
+      <nav class="foot-links">
+        <a href="#">Mentions légales</a><span class="vsep"></span>
+        <a href="#">Politique de confidentialité</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const $ok  = document.getElementById('formOk');
+    const $err = document.getElementById('formErr');
+    $ok.hidden = true;
+    $err.hidden = true;
+
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!identifier || !password) {
+      $err.textContent = "Veuillez remplir tous les champs.";
+      $err.hidden = false;
+      return;
+    }
+
+    const payload = { identifier, password };
+
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Réponse invalide du serveur.");
+      }
+
+      if (!res.ok || !data.token) {
+        throw new Error(data.error || "Identifiants invalides.");
+      }
+
+      localStorage.setItem('jwt', data.token);
+      $ok.hidden = false;
+      setTimeout(() => { window.location.href = './dashboard.html'; }, 700);
+
+    } catch (err) {
+      $err.textContent = err.message || "Erreur de connexion";
+      $err.hidden = false;
+    }
+  });
+  </script>
+</body>
+</html>
