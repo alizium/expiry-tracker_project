@@ -49,7 +49,7 @@ Avant de commencer, assurez-vous d’avoir installé sur votre système :
 
 ```bash
 git clone <votre-repo> expiry-tracker
-cd expiry-tracker
+cd expiry-tracker-
 ```
 
 ### 2️⃣ Installer les dépendances du backend
